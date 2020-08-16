@@ -1094,13 +1094,14 @@ double calc_gvc(double Kl,
 			gs = (Kl/D_molar) * (soilpsi - leafpsi - (canopy_ht*(9.81)*0.001)); //[sean] default
 
 			//[sean] sean's gs~psi_leaf add-on starts here
-	//		      /*
+//			      /*
 			// solve gs for the point at which stomata **begin** to come under leafpsi regulation.. (assuming -2.0)
 			// also creating variables to save logistic rate and midpoint
-			float sean_gs_turn = -1; // point of **intial** stomatal closure (MPa) [-2.0]
-			double sean_gs_turn_max = (Kl/D_molar) * (soilpsi - sean_gs_turn - (canopy_ht*(9.81)*0.001)); //gs at gs_turn
+			float sean_gs_turn = -3.5; // point of **intial** stomatal closure (MPa) [-2.0]
+			double sean_gs_max = (Kl/D_molar) * (soilpsi - leafpsi - (canopy_ht*(9.81)*0.001));
+			// double sean_gs_max = treesParams.Gsref0 * 1000; //gs max mmol
 			float sean_rate = -4.0;      // logistic rate of decrease [-4.0]
-			float sean_midpoint = -2;  // logistic midpoint (MPa) [-3.0]
+			float sean_midpoint = -4.5;  // logistic midpoint (MPa) [-3.0]
 			//[sean] this if-else statement keeps gs as the default calculation and then regulates it via a logistic
 			//[sean] function as leafpsi becomes more negative than -2.0 MPa... or whatever value is assigned float 'sean_gs_turn'
 			if(leafpsi > sean_gs_turn) {
@@ -1108,14 +1109,13 @@ double calc_gvc(double Kl,
 			}
 			else {
 				double woo;
-				woo = sean_gs_turn_max / (1 + exp(sean_rate * (leafpsi - sean_midpoint)));
+				woo = sean_gs_max / (1 + exp(sean_rate * (leafpsi - sean_midpoint)));
 				//[sean] take the minimum of the two gs estimates
 				if(woo < gs) {
 					gs = woo;
 				} else { gs=gs; }
 			}
-			if(gs < 1) { gs = 1; } //[sean] to prevent gs going negative at very low leafpsi
-	//		      */  //[sean] and ends here
+//			      */  //[sean] and ends here
 
 		//	cout << "gs = " << gs << endl;
 		//	cout << "sean_gs_turn = " << sean_gs_turn << endl;
@@ -1135,7 +1135,6 @@ double calc_gvc(double Kl,
 		{
 			gvc = 0.000001;
 		}
-
 		return (gvc);
 	}
 
@@ -1939,7 +1938,7 @@ void infiltration(double input,
 				// cout << "root_module = " << i-1 << "  prior_theta[i-1] = " << thetaSoil[i-1] << endl;
 				// cout << "root_module = " << i-1 << "  post_theta[i-1]  = " << thetaSoil[i-1]+delta_Sr/(rootDepth[i-1]*mineral_fraction) << endl;
 				//sleep(1);
-				// delta_Sr = 0; //[sean] turn off the upward movement of water
+	//			 delta_Sr = 0; //[sean] turn off to stop the the upward movement of water
 
 				//[sean] add drain to above layer and subtract it from lower layer...
 				//[sean] delta_Sr is a positive number

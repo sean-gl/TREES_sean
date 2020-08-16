@@ -94,7 +94,7 @@ int main()
   // cout << "Number of time steps to aggregate for MCMC evaluations (suggest 1, 2, 4, 6, 8, 12):";
   // cin >> n_agg;
 	//[sean] assigning int to int n_agg
-	n_agg = 6; //[sean] running in determinisitc, so this number doesn't matter
+	n_agg = 1; //[sean] running in determinisitc, so this number doesn't matter
 
 
 

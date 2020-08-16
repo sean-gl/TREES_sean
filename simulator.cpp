@@ -1026,7 +1026,7 @@ void simulator(Data_Store& in_data, //[sean] not sure why these are refrences bu
 
 
 
-// [sean] hardcode initilaze ALL soil layers
+// [sean] adding this... hardcode initialize ALL soil layers
 for (j = 0; j < treesParams.rmodules; j++)
 {
 	if(j==0) { thetaSoil[j] = 0.2; }
@@ -1562,13 +1562,13 @@ cout << "rootArea = " << rootArea << endl;
                         {
 				fluxout << bgc.getRhizosphereMicrobialNitrogen(j) << '\t';
 			}
-/*
+ /*
 			for (j = 0; j < treesParams.rmodules; j++)
                         {
 				fluxout << bgc.getNitrogenLeaching(j) << '\t';
 			}
-*/
-			//fluxout << bgc.getRhizosphereLiveMicrobialCarbon() << '\t' << bgc.getRhizosphereMicrobialNitrogen() << '\t';
+ */
+			// fluxout << bgc.getRhizosphereLiveMicrobialCarbon() << '\t' << bgc.getRhizosphereMicrobialNitrogen() << '\t';
 			fluxout << bgc.getRhizosphereNitrateNitrogen() << '\t';
 			fluxout << bgc.getRhizosphereAmmoniumNitrogen() << '\t';
 			fluxout << bgc.getPlantN() << '\t' << bgc.plantNstatus[0] << '\t';

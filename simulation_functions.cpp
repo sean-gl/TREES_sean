@@ -1697,7 +1697,11 @@ struct sim_out simulation_functions(
 //all other layers, transpiration only
 	for (i = 1; i < rmodules; i++)
 	{
+
 //water uptake in each rhizosphere contributing to transpiration
+
+		//[sean] changing the below line to simulate water uptake from rhizosphere layers via weeds
+		//[sean] default multiplier = 1.8.  Increasing by 20% (2.16) for weed competition
 		transpiration = EcConversion_StoT(simOut.rhizFlux[i], treesParams.lai)*1.8;
 		if (is_bryophyte == 1) //key byophyte evaporation to deeper layer
 		{
@@ -2260,7 +2264,7 @@ struct sim_out simulation_functions(
 //Includes fraction of leaf growth respiration from leaf expansion
 //	R_total = (R_bg + R_stem) / 0.012 * pow(10.0,6.0) / pow(10.0,4.0) / 1800.0;
 	R_total = (simOut.leaf_growth_respiration + 0.14*rgrowth +
-		   R_bg + R_leaf + R_stem + delta_reproduction * 1.14 +
+		   R_bg + R_leaf + R_stem + delta_reproduction * 1.14 +  //[sean] was 1.14
 		   0.5*rdefense) * 4.6296; //convert to umol/m2/s
         NEE = -(A_tot - R_total);
         simOut.NEE = NEE;

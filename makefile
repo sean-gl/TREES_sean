@@ -12,13 +12,13 @@
 
 .SUFFIXES: .c .cpp
 
-# [sean] telling Make to use gcc (vice clang)
+# [sean] telling Make to use gcc (g++ and c++ should give identical behavouf -- c++ links to g++)
 CXX    = c++
 # [sean] "-O2" Scott's optimization code (code size, execution time)
 # [sean] replace with nothing (= ) to run with default optimization (~none)
 # [sean] "-Og" is a less intensive optimization that maintains most debugging symbols
 # [sean] 4_30_2020: can't get "-OO" code to run... but "-Og" works fine
-CFLAGS = -Og # changed to "= " for no optimization... but seems to run poorly (possible?)
+CFLAGS = -O2#-Og # changed to "= " for no optimization... but seems to run poorly (possible?)
 
 
 CSRC =  \

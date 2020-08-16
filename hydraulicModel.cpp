@@ -2029,6 +2029,33 @@ void HydraulicModel::solveWater(bool silent, bool callRewet, double Ypd[],
 
 							//NEW
 							Kl = ev / (soilpsiavg[t] - ppred); //output k at the leaf.
+
+
+							//[sean] trial code to wind back Kl as a function of psi_leaf... ("gs" regulation)
+				      /*
+							// cout << "Kl = " << Kl << endl; //[sean] adding this line
+							// cout << "Kl_max = " << treesParams.Gsref0 << endl; //[sean]
+							//[sean] scale back Kl as a logistic function of psi_leaf
+							float sean_gs_turn = -1.0; // point of **intial** stomatal closure (MPa) [-2.0]
+							double sean_Kl_max = treesParams.saturated_kl_for_whole_plant; //[sean]Kl max mmol
+							float sean_rate = -4.0;      // logistic rate of decrease [-4.0]
+							float sean_midpoint = -2.0;  // logistic midpoint (MPa) [-3.0]
+
+							if(leafpsi > sean_gs_turn) {
+								Kl = Kl;
+							}
+							else {
+								double woo;
+								woo = sean_Kl_max / (1 + exp(sean_rate * (leafpsi - sean_midpoint)));
+								//[sean] take the minimum of the two Kl estimates
+								if(woo < Kl) {
+									Kl = woo;
+								} else { Kl=Kl; }
+							}
+					    */
+
+
+
 							/*
 							Kl = 0.0;
 							if (soilpsiavg[t] > (ppred+0.01))
