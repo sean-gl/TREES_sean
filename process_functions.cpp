@@ -1708,7 +1708,7 @@ double compute_effective_precipitation(State_Store& state,
 
 
 // [sean] this allows for **saturated** (unsaturated is handled below) flow downward through soil layers (e.g., soil sorrounding each root module)
-// [sean] Scott says this is not important because water redistribution via the root xylem (hydralic redistribution)
+// [sean] Scott says this may not be important because water redistribution via the root xylem (hydralic redistribution)
 // [sean] renders infiltartion, more-or-less, negligible
 //DRAINAGE: precipitation --> litter layer --> shallow soil layer --> deep soil layer
 //
@@ -1956,7 +1956,6 @@ void infiltration(double input,
 			drain = delta_Sr = 0.0;
 
 
-
 		}  //[sean] end of while loop... dump extra water from the very bottom layer
 			if (thetaSoil[rmodules-1] > porosity)
 			{
@@ -2014,7 +2013,6 @@ double unsat_zone_drainage(double dZ1,
 		// }
 
 		//[sean] this section just sets the iteration time... keep!
-		//[sean] I don't know what "ko" is
 		drain = totalDrain = 0.0;
 		if (theta1 > 0.9*porosity)  //[sean] if soilwater content is very close to maximal, use 30-min steps (keep, but maybe chagne theta1 to theta2)
 		{
@@ -2041,17 +2039,12 @@ double unsat_zone_drainage(double dZ1,
 		Z1 = 0.5*dZ1;
 		Z2 = 0.5*(dZ1 + dZ2);
 
-		//[sean] fc is field capacity... right... why multiply by dZ1 and mineral fraction????
-		//[sean] is this becasue we only want the fraction of soil that has roots in it??
-		//[sean] and we only want to consider the fraction of mineral soil as well?
-		//[sean] I think we need to delete dZ1 from this equation... we want to calculate water
-		//[sean] transfer for the entire layer, not just the part that has roots in it.
 		fc = field_capacity*dZ1*mineral_fraction;
 		for (int i = 0; i < iter; ++i)
 		{
 			//no drainage if draining layer is already at field capacity;
 			//[sean] this gives fraction of total soil volume that is water (not root and not mineral) for the top and bottom layers
-			suz1 = theta1*dZ1*mineral_fraction; //[sean] ditto... I think we want to delete dZ1 from this eqn (same for next line)
+			suz1 = theta1*dZ1*mineral_fraction; //[sean] ditto...
 			suz2 = theta2*dZ2*mineral_fraction;
 
 			//[sean] these values are used to calculate k_soil (ku) below... tho n seems not to be used (commented out below)
@@ -2059,7 +2052,7 @@ double unsat_zone_drainage(double dZ1,
 			n = pore_size_index + 1.0;
 			m = pore_size_index / n;
 
-			//[sean] calculates the fraction of water (minus residual...why?) relative to maximal water
+			//[sean] calculates the fraction of water relative to maximal water
 			//[sean]residual is the residual water content for entire column of soil (not for individual layers)
 			//[sean] what is S and why is it assinged a value of either 1 or 0.001?
 			S = (theta1 - residual) / (porosity - residual);
@@ -2097,7 +2090,6 @@ double unsat_zone_drainage(double dZ1,
 			//[sean] We mulitple by 0.5 because the mean distance water will travel is from the middel of top layer
 			//[sean] to the middle of the bottom. I think '1' is the partial derivative of head with respect to change in depth
 			drain = ku*((psi2-psi1)/(0.5*(dZ1+dZ2))+1.0);
-			// drain = ku*((psi2-psi1)/(0.5*(dZ1+dZ2)));  //[sean] removing +1... just for now
 			//drain = ku*((psi2-psi1)/(Z2-Z1)+1.0);  //[sean] why not use this?
 			//update total drainage and moisture contents
 
@@ -2156,7 +2148,6 @@ double unsat_zone_drainage(double dZ1,
 				}
 
 				//[sean] recycling Scott's code to set iteration times here
-				//[sean] what is ko and why is it being reduced as a fxn of interation?
 				drain = totalDrain = 0.0;
 				if (theta2 > 0.9*porosity)
 				{
